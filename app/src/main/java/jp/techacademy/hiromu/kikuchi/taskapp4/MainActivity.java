@@ -12,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Button;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -43,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent intent = new Intent(MainActivity.this, InputActivity.class);
-               startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, InputActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -118,7 +120,30 @@ public class MainActivity extends AppCompatActivity {
         });
 
         reloadListView();
+
+        Button Button1 = (Button) findViewById(R.id.Button1);
+        Button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Realm mRealm;
+
+                mRealm = Realm.getDefaultInstance();
+
+                RealmQuery<Task> query = mRealm.where(Task.class);
+
+
+                query.equalTo("Task", "category");
+
+                RealmResults<Task> result1 = query.findAll();
+            }
+        });
     }
+
+
+
+
+
+
 
     private void reloadListView() {
         // Realmデータベースから、「全てのデータを取得して新しい日時順に並べた結果」を取得
