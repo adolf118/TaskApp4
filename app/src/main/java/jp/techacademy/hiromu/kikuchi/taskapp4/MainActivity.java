@@ -142,12 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
                 mRealm = Realm.getDefaultInstance();
 
-                    Task task = new Task();
-                    task.setTitle("title");
-                    task.setContents("PUSH");
-                    task.setDate(new Date());
-                    task.setId(0);
-                    mRealm.beginTransaction();
 
                     RealmQuery<Task> query = mRealm.where(Task.class);
 
@@ -155,8 +149,9 @@ public class MainActivity extends AppCompatActivity {
 
                     RealmResults<Task> taskRealmResults = query.findAll();
 
-                    mRealm.copyToRealmOrUpdate(task);
-                    mRealm.commitTransaction();
+                    mTaskAdapter.setTaskList(mRealm.copyFromRealm(taskRealmResults));
+                    mTaskAdapter.notifyDataSetChanged();
+
 
             }
         });
