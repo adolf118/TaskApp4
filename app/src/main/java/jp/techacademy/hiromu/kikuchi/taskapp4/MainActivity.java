@@ -11,8 +11,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Button;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -24,6 +29,9 @@ import io.realm.Sort;
 
 public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_TASK = "jp.techacademy.hiromu.kikuchi.taskapp4.TASK";
+
+    EditText mEditText;
+
 
     private Realm mRealm;
     private RealmChangeListener mRealmListener = new RealmChangeListener() {
@@ -121,20 +129,35 @@ public class MainActivity extends AppCompatActivity {
 
         reloadListView();
 
+        mEditText = (EditText) findViewById(R.id.EditText1);
         Button Button1 = (Button) findViewById(R.id.Button1);
+
+
+
         Button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Realm mRealm;
 
                 mRealm = Realm.getDefaultInstance();
 
-                RealmQuery<Task> query = mRealm.where(Task.class);
+                    Task task = new Task();
+                    task.setTitle("title");
+                    task.setContents("PUSH");
+                    task.setDate(new Date());
+                    task.setId(0);
+                    mRealm.beginTransaction();
 
+                    RealmQuery<Task> query = mRealm.where(Task.class);
 
-                query.equalTo("Task", "category");
+                    query.equalTo("category", mEditText.getText().toString());
 
-                RealmResults<Task> result1 = query.findAll();
+                    RealmResults<Task> taskRealmResults = query.findAll();
+
+                    mRealm.copyToRealmOrUpdate(task);
+                    mRealm.commitTransaction();
+
             }
         });
     }
