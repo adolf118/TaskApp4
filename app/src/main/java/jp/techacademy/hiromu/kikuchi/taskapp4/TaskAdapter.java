@@ -11,6 +11,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+
 public class TaskAdapter extends BaseAdapter{
     private LayoutInflater mLayoutInflater;
     private List<Task> mTaskList;
@@ -56,4 +60,8 @@ public class TaskAdapter extends BaseAdapter{
 
         return convertView;
     }
+
+
+
+
 }
